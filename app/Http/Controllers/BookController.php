@@ -11,31 +11,33 @@ class BookController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->get('keyword', '');
-
-//        if (!empty($keyword)) {
-//            $query = Query::match()
-//                ->field('name')
-//                ->query($keyword)
-//                ->fuzziness('AUTO');
-//        }
-//        else{
-//            $query = Query::matchAll();
-//        }
-        $searchResult = Book::searchQuery()
-            ->aggregate('max_price', [
-                'max' => [
-                    'field' => 'price',
-                ],
-            ])
+        if (!empty($keyword)) {
+            // multiMatch cho phép khớp với nhiều field
+            $query = Query::multiMatch()
+                // chỉ định các trường cho phép tìm kiếm
+                ->fields(['name', 'author'])
+                // giá trị mà bạn muốn tìm kiếm
+                ->query($keyword)
+                // chỉ định độ mờ tối đa của truy vẫn (cho phép sai chỉnh tả)
+                ->fuzziness('AUTO');
+        } else {
+            // tạo truy vấn khới với tất cả tài liệu
+            $query = Query::matchAll();
+        }
+        // bắt đầu tìm kiếm với query được build với model bằng searchQuery()
+        $searchResult = Book::searchQuery($query)
+            // chỉ định số bản ghi trả về
+            ->size(20)
+            // truy xuất kết quả search với câu lệnh thực thi execute()
             ->execute();
-        $aggregations = $searchResult->aggregations();
-        $maxPrice = $aggregations->get('max_price');
-//        $builder = Book::searchQuery($query)
-//            ->sort('price', 'asc')->execute();
 
-//        $books = $searchResult->models();
+        $hits       = $searchResult->hits();
+        $documents  = $searchResult->documents();
+        $highlights = $searchResult->highlights();
+//        dd($hits, $documents, $highlights);
 
-        dd($maxPrice);
+        $books = $searchResult->models();
+
         return view('books', compact('books'));
     }
 }

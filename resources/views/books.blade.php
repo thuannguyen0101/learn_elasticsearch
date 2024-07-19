@@ -12,17 +12,16 @@
 <body>
 
 <div class="jumbotron text-center">
-  <h1>My First Bootstrap Page</h1>
-  <p>Resize this responsive page to see the effect!</p> 
+  <h1>Demo elasticsearch with Book model </h1>
 </div>
-  
+
 <div class="container">
   <form class="mb-2" method="GET" action="{{route('books.index')}}">
     <div class="input-group">
     <input type="text" name="keyword" value="{{ request('keyword') ?? '' }}" class="form-control" placeholder="Search this book">
     <div class="input-group-append">
       <button class="btn btn-secondary" type="submit">
-        Search 
+        Search
       </button>
     </div>
   </div>
