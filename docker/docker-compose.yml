@@ -78,6 +78,19 @@ services:
         networks:
             - elastic-net
 
+    logstash:
+        image: docker.elastic.co/logstash/logstash:8.13.4
+        container_name: logstash
+        environment:
+            - XPACK_MONITORING_ENABLED=false
+        ports:
+            - "5044:5044"
+        volumes:
+            - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+            - ./logstash/pipeline:/usr/share/logstash/pipeline
+        networks:
+            - elastic-net
+
 volumes:
     master-data:
         driver: local

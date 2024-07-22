@@ -1,0 +1,3 @@
+path.data: /usr/share/logstash/data
+path.logs: /usr/share/logstash/logs
+xpack.monitoring.enabled: ${XPACK_MONITORING_ENABLED}
