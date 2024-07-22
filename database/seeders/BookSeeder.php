@@ -118,15 +118,24 @@ class BookSeeder extends Seeder
         $array = explode("\n", $str);
         foreach ($array as $key => $value) {
             $value = explode("\t", $value);
+            $this->replaceSpace($value[1]);
+        
             Book::create([
-                'name' => $value[1],
-                'author' => $value[2],
+                'name' => $this->replaceSpace($value[1]),
+                'author' => $this->replaceSpace($value[2]),
                 'price' => rand(1,9999),
-                'nation' => $value[5],
+                'nation' => $this->replaceSpace($value[5]),
                 'desc' => '',
                 'status' => 1,
             ]);
         }
 
+    }
+    public function replaceSpace($str){
+        $isSpace = substr($str, -1) === ' ';
+        if($isSpace){
+            return substr_replace($str,'', -1);
+        }
+        return $str;
     }
 }
