@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Elastic\ScoutDriverPlus\Support\Query;
+use Illuminate\Support\Facades\Log;
 
 class BookController extends Controller
 {
@@ -80,7 +81,7 @@ class BookController extends Controller
         $documents  = $searchResult->documents();
         $highlights = $searchResult->highlights();
         // dd($searchResult);
-
+        Log::info('this run app');
         $books = $searchResult->models();
 
         return view('books', compact('books', 'maxPrice'));

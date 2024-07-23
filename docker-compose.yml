@@ -77,7 +77,6 @@ services:
             - 5602:5601
         networks:
             - elastic-net
-
     logstash:
         image: docker.elastic.co/logstash/logstash:8.13.4
         container_name: logstash
@@ -88,6 +87,7 @@ services:
         volumes:
             - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
             - ./logstash/pipeline:/usr/share/logstash/pipeline
+            - ./storage/logs:/var/www/learn_elastic/storage/logs
         networks:
             - elastic-net
 
