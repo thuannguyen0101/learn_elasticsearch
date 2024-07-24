@@ -25,9 +25,6 @@ class BookController extends Controller
             // multiMatch cho phép khớp với nhiều field
             // dd($keyword);
             // $query = $this->queryTerm($keyword);
-
-
-
             $query = Query::bool()
                 ->should(Query::term()->field('author.keyword')->value($keyword))
                 ->should(Query::match()->field('name')->query($keyword)->fuzziness('AUTO'))
