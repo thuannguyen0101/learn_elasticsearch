@@ -19,15 +19,20 @@ class BookController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->get('keyword', '');
-        $pit = Book::openPointInTime('1m');
+        // $pit = Book::openPointInTime('1m');
 
         if (!empty($keyword)) {
             // multiMatch cho phép khớp với nhiều field
             // dd($keyword);
+            // $query = $this->queryTerm($keyword);
+
+
 
             $query = Query::bool()
-                ->should(Query::matchPhrase()->field('author')->query($keyword))
-                ->should(Query::match()->field('name')->query($keyword));
+                ->should(Query::term()->field('author.keyword')->value($keyword))
+                ->should(Query::match()->field('name')->query($keyword)->fuzziness('AUTO'))
+                ->should(Query::match()->field('nation')->query($keyword)->fuzziness('AUTO'));
+                
                 // chỉ định các trường cho phép tìm kiếm
                 // ->fields(['name', 'author'])
                 // giá trị mà bạn muốn tìm kiếm
@@ -90,7 +95,8 @@ class BookController extends Controller
     /**
      * @param Request $request
      */
-    public function query(Request $request){
-        
+    public function queryTerm($search){
+        $query = Query::term()->field('nation.keyword')->value($search);
+        return $query;
     }
 }

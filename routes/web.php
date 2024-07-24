@@ -19,5 +19,5 @@ Route::get('/', function () {
 });
 Route::prefix('/books')->group(function () {
     Route::get('/', [BookController::class, 'index'])->name('books.index');
-    Route::get('/query', [BookController::class, 'query'])->name('books.query');
+    // Route::get('/query', [BookController::class, 'query'])->name('books.query');
 });
