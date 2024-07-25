@@ -19,5 +19,7 @@ Route::get('/', function () {
 });
 Route::prefix('/books')->group(function () {
     Route::get('/', [BookController::class, 'index'])->name('books.index');
-    // Route::get('/query', [BookController::class, 'query'])->name('books.query');
+    Route::get('/create', [BookController::class, 'create'])->name('books.create');
+    Route::post('/create', [BookController::class, 'store'])->name('books.store');
+    Route::get('/delete/{id}', [BookController::class, 'delete'])->name('books.delete');
 });

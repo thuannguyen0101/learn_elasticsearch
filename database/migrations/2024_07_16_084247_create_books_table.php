@@ -21,6 +21,7 @@ class CreateBooksTable extends Migration
             $table->string('nation');
             $table->string('desc')->nullable();
             $table->smallInteger('status')->default(1)->comment('1: active; 2 inactive');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
